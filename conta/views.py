@@ -10,22 +10,25 @@ def index(request):
 def calcular_area(request):
     if request.method == 'POST':
         try:
-            raio = float(request.POST.get('raio'))
-            # Calcula a área (A = π * r²)
-            area = 3.1416 * (raio ** 2)
+            raio = float(request.POST.get('raio'))  # Obtém o raio do formulário
+            area = 3.1416 * (raio ** 2)  # Calcula a área (A = π * r²)
+            
+            # Salva o cálculo no banco de dados
+            calculo = Calculo(resultado=area)
+            calculo.save()
 
-            # Salvar o resultado no banco de dados
-            Cal = Calculo(
-                resultado=area
-            )
-            Cal.save()
-
-            # Exibe o resultado na página calcular-area.html
+            
             return render(request, 'calcular-area.html', {'raio': raio, 'area': area})
-        except ValueError:
-            return HttpResponse("Erro: insira um número válido.", status=400)
-    return HttpResponse("Método não permitido.", status=405)
+        except (ValueError, TypeError):
+            # Retorna uma mensagem de erro se o input for inválido
+            return render(request, 'calcular-area.html', {'erro': "Insira um número válido!"})
+    return render(request, 'calcular-area.html')
 
 # Página sobre o autor
 def autor(request):
-    return render(request, 'autor.html')
+    contexto = {
+        'nome': "Taina Oliveira Lima",
+        'formacoes': ["tecnico em redes de computadores"],
+        
+    }
+    return render(request, 'autor.html', contexto)

@@ -20,8 +20,8 @@ from django.contrib import admin
 from conta import views
 
 urlpatterns = [
-    path('admin/',admin.site.urls),
-    path('', views.index, name='index'),
-    path('calcular-area', views.calcular_area, name='calcular_area'),
-    path('autor', views.autor, name='autor'),
+    path('admin/', admin.site.urls),  
+    path('', views.index, name='index')
+    path('calcular-area/', views.calcular_area, name='calcular_area'), 
+    path('autor/', views.autor, name='autor'),  
 ]
